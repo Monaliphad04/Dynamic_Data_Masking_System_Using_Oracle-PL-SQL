@@ -420,7 +420,7 @@ where $w_i$ is the configured rule weight and $s_i \in \{0, 1\}$ indicates signa
 - **Medium Risk (30 – 69):**
   - *Context:* Single anomaly present (e.g., query at 07:30 PM from trusted VPN, or minor query velocity spike).
   - *Action:* In-flight partial masking of PII (phone numbers masked except last 4 digits; email addresses masked except domain).
-- **High Risk (70 – 100):**
+- **High Risk (70 – 100):
   - *Context:* Multiple compounding anomalies (e.g., off-hours + untrusted public IP + burst requests) or explicit security flags.
   - *Action:* Complete redaction of all sensitive attributes. Restricted row count or empty set returned for sensitive queries. High-priority audit notification logged.
 
