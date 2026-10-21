@@ -1,0 +1,62 @@
+# Operating System Files
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+.DS_Store
+
+# Environment & Secrets (Never commit credentials)
+*.env
+*.env.*
+*.secret
+*.key
+tnsnames.ora.local
+wallet/
+*.wallet
+
+# Oracle SQL Developer & IDE Files
+.idea/
+.vscode/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Python artifacts (for optional app / test scripts)
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+build/
+develop-eggs/
+dist/
+downloads/
+eggs/
+.eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+*.egg-info/
+.installed.cfg
+*.egg
+
+# Node / React artifacts (for Phase 12)
+node_modules/
+.npm
+.vite
+dist/
+dist-ssr/
+*.local
+
+# Logs and test artifacts
+*.log
+*.tmp
+tests/output/
+benchmark_raw_*.csv
