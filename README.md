@@ -136,9 +136,9 @@ DB_Project_M/
 | **Phase 4** | Trusted Context & Session Management | Completed |
 | **Phase 5** | Core Masking Functions & Algorithms | Completed |
 | **Phase 6** | Rule-Based Risk Scoring Engine | Completed |
-| **Phase 7** | Auditing Architecture & Autonomous Logging | Ready |
-| **Phase 8** | Dynamic Masking Views & Integration | Pending |
-| **Phase 9** | Oracle VPD (`DBMS_RLS`) Policy Enforcement | Pending |
+| **Phase 7** | Auditing Architecture & Autonomous Logging | Completed |
+| **Phase 8** | Dynamic Masking Views & Integration | Completed |
+| **Phase 9** | Oracle VPD (`DBMS_RLS`) Policy Enforcement | Ready |
 | **Phase 10** | Comprehensive Security & Bypass Testing | Pending |
 | **Phase 11** | Performance Benchmarking & Optimization | Pending |
 | **Phase 12** | Optional Web API & Interactive Dashboard (React + Vite + Tailwind) | Pending |
