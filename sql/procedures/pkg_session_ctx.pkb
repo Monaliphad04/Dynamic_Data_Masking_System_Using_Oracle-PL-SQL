@@ -13,6 +13,8 @@ CREATE OR REPLACE PACKAGE BODY SEC_OWNER.PKG_SESSION_CTX AS
     -- ------------------------------------------------------------------------
     -- Private Helper: Sets Fail-Closed Default Context on Error / Invalid User
     -- ------------------------------------------------------------------------
+    -- Private Helper: Sets Fail-Closed Default Context on Error / Invalid User
+    -- ------------------------------------------------------------------------
     PROCEDURE SET_FAIL_CLOSED_STATE(
         p_username IN VARCHAR2,
         p_reason   IN VARCHAR2
@@ -24,6 +26,7 @@ CREATE OR REPLACE PACKAGE BODY SEC_OWNER.PKG_SESSION_CTX AS
         DBMS_SESSION.SET_CONTEXT(C_CONTEXT_NAMESPACE, 'ROLE_ID',            '-1');
         DBMS_SESSION.SET_CONTEXT(C_CONTEXT_NAMESPACE, 'MAX_PERMITTED_RISK', '0');
         DBMS_SESSION.SET_CONTEXT(C_CONTEXT_NAMESPACE, 'CLIENT_IP',          C_DEFAULT_IP);
+        DBMS_SESSION.SET_CONTEXT(C_CONTEXT_NAMESPACE, 'BRANCH_CODE',        C_DEFAULT_BRANCH);
         DBMS_SESSION.SET_CONTEXT(C_CONTEXT_NAMESPACE, 'TRUSTED_IP_SUBNET',  'NONE');
         DBMS_SESSION.SET_CONTEXT(C_CONTEXT_NAMESPACE, 'WORK_HOUR_START',    '0');
         DBMS_SESSION.SET_CONTEXT(C_CONTEXT_NAMESPACE, 'WORK_HOUR_END',      '0');
@@ -56,11 +59,14 @@ CREATE OR REPLACE PACKAGE BODY SEC_OWNER.PKG_SESSION_CTX AS
 
         -- 2. Query user identity and role specification
         BEGIN
-            SELECT u.*, r.role_name, r.max_permitted_risk
+            SELECT u.user_id, u.username, u.full_name, u.email, u.role_id,
+                   u.account_status, u.trusted_ip_subnet, u.branch_code,
+                   u.work_hour_start, u.work_hour_end, u.created_at,
+                   r.role_name, r.max_permitted_risk
             INTO v_user_rec.user_id, v_user_rec.username, v_user_rec.full_name,
                  v_user_rec.email, v_user_rec.role_id, v_user_rec.account_status,
-                 v_user_rec.trusted_ip_subnet, v_user_rec.work_hour_start,
-                 v_user_rec.work_hour_end, v_user_rec.created_at,
+                 v_user_rec.trusted_ip_subnet, v_user_rec.branch_code,
+                 v_user_rec.work_hour_start, v_user_rec.work_hour_end, v_user_rec.created_at,
                  v_role_name, v_max_risk
             FROM SEC_OWNER.APP_USERS u
             JOIN SEC_OWNER.USER_ROLES r ON u.role_id = r.role_id
@@ -109,6 +115,7 @@ CREATE OR REPLACE PACKAGE BODY SEC_OWNER.PKG_SESSION_CTX AS
         DBMS_SESSION.SET_CONTEXT(C_CONTEXT_NAMESPACE, 'ROLE_ID',            TO_CHAR(v_user_rec.role_id));
         DBMS_SESSION.SET_CONTEXT(C_CONTEXT_NAMESPACE, 'MAX_PERMITTED_RISK', TO_CHAR(v_max_risk));
         DBMS_SESSION.SET_CONTEXT(C_CONTEXT_NAMESPACE, 'CLIENT_IP',          v_effective_ip);
+        DBMS_SESSION.SET_CONTEXT(C_CONTEXT_NAMESPACE, 'BRANCH_CODE',        NVL(v_user_rec.branch_code, C_DEFAULT_BRANCH));
         DBMS_SESSION.SET_CONTEXT(C_CONTEXT_NAMESPACE, 'TRUSTED_IP_SUBNET',  NVL(v_user_rec.trusted_ip_subnet, '%'));
         DBMS_SESSION.SET_CONTEXT(C_CONTEXT_NAMESPACE, 'WORK_HOUR_START',    TO_CHAR(v_user_rec.work_hour_start));
         DBMS_SESSION.SET_CONTEXT(C_CONTEXT_NAMESPACE, 'WORK_HOUR_END',      TO_CHAR(v_user_rec.work_hour_end));
@@ -123,6 +130,26 @@ CREATE OR REPLACE PACKAGE BODY SEC_OWNER.PKG_SESSION_CTX AS
             -- Any unexpected runtime failure forces strict fail-closed state
             SET_FAIL_CLOSED_STATE(p_username, 'INTERNAL_ERROR');
     END INITIALIZE_SESSION;
+
+    -- ------------------------------------------------------------------------
+    -- SET_BRANCH_CONTEXT
+    -- ------------------------------------------------------------------------
+    PROCEDURE SET_BRANCH_CONTEXT(
+        p_branch_code IN VARCHAR2
+    ) IS
+        v_clean_branch VARCHAR2(10);
+    BEGIN
+        IF p_branch_code IS NULL OR TRIM(p_branch_code) IS NULL THEN
+            v_clean_branch := C_DEFAULT_BRANCH;
+        ELSE
+            v_clean_branch := UPPER(TRIM(p_branch_code));
+        END IF;
+
+        DBMS_SESSION.SET_CONTEXT(C_CONTEXT_NAMESPACE, 'BRANCH_CODE', v_clean_branch);
+    EXCEPTION
+        WHEN OTHERS THEN
+            DBMS_SESSION.SET_CONTEXT(C_CONTEXT_NAMESPACE, 'BRANCH_CODE', C_DEFAULT_BRANCH);
+    END SET_BRANCH_CONTEXT;
 
     -- ------------------------------------------------------------------------
     -- SET_SESSION_RISK
@@ -202,6 +229,12 @@ CREATE OR REPLACE PACKAGE BODY SEC_OWNER.PKG_SESSION_CTX AS
     BEGIN
         RETURN NVL(v_val, C_DEFAULT_IP);
     END GET_CLIENT_IP;
+
+    FUNCTION GET_BRANCH_CODE RETURN VARCHAR2 DETERMINISTIC IS
+        v_val VARCHAR2(10) := SYS_CONTEXT(C_CONTEXT_NAMESPACE, 'BRANCH_CODE');
+    BEGIN
+        RETURN NVL(v_val, C_DEFAULT_BRANCH);
+    END GET_BRANCH_CODE;
 
     FUNCTION GET_CURRENT_RISK_SCORE RETURN NUMBER DETERMINISTIC IS
         v_val VARCHAR2(50) := SYS_CONTEXT(C_CONTEXT_NAMESPACE, 'RISK_SCORE');

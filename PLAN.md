@@ -590,10 +590,10 @@ END LOG_ACCESS_EVENT;
 - [x] **Phase 6:** Rule-Based Risk Scoring Engine
 - [x] **Phase 7:** Auditing Architecture & Autonomous Logging
 - [x] **Phase 8:** Dynamic Masking Views & Integration
-- [ ] **Phase 9:** Oracle VPD (`DBMS_RLS`) Policy Enforcement
-- [ ] **Phase 10:** Comprehensive Security & Bypass Testing
-- [ ] **Phase 11:** Performance Benchmarking & Optimization
-- [ ] **Phase 12:** Optional Web API & Interactive Dashboard
+- [x] **Phase 9:** Oracle VPD (`DBMS_RLS`) Policy Enforcement
+- [x] **Phase 10:** Comprehensive Security & Bypass Testing
+- [x] **Phase 11:** Performance Benchmarking & Optimization
+- [x] **Phase 12:** Optional Web API & Interactive Dashboard
 - [ ] **Phase 13:** Academic Documentation, Demo, & Presentation
 
 ---

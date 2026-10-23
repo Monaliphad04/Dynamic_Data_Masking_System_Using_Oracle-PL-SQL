@@ -62,26 +62,26 @@ BEGIN
     SELECT role_id INTO v_care_rid    FROM USER_ROLES WHERE role_name = 'CUSTOMER_CARE';
     SELECT role_id INTO v_analyst_rid FROM USER_ROLES WHERE role_name = 'ANALYST';
 
-    INSERT INTO APP_USERS (username, full_name, email, role_id, account_status, trusted_ip_subnet, work_hour_start, work_hour_end)
-    VALUES ('admin_user', 'Eleanor Vance', 'eleanor.vance@banksec.internal', v_admin_rid, 'ACTIVE', '192.168.1.%', 8, 20);
+    INSERT INTO APP_USERS (username, full_name, email, role_id, account_status, trusted_ip_subnet, branch_code, work_hour_start, work_hour_end)
+    VALUES ('admin_user', 'Eleanor Vance', 'eleanor.vance@banksec.internal', v_admin_rid, 'ACTIVE', '192.168.1.%', 'ALL', 8, 20);
 
-    INSERT INTO APP_USERS (username, full_name, email, role_id, account_status, trusted_ip_subnet, work_hour_start, work_hour_end)
-    VALUES ('agent_sarah', 'Sarah Jenkins', 'sarah.jenkins@banksec.internal', v_care_rid, 'ACTIVE', '192.168.1.%', 9, 17);
+    INSERT INTO APP_USERS (username, full_name, email, role_id, account_status, trusted_ip_subnet, branch_code, work_hour_start, work_hour_end)
+    VALUES ('agent_sarah', 'Sarah Jenkins', 'sarah.jenkins@banksec.internal', v_care_rid, 'ACTIVE', '192.168.1.%', 'BR_NYC_01', 9, 17);
 
-    INSERT INTO APP_USERS (username, full_name, email, role_id, account_status, trusted_ip_subnet, work_hour_start, work_hour_end)
-    VALUES ('agent_mike', 'Michael Torres', 'michael.torres@banksec.internal', v_care_rid, 'ACTIVE', '192.168.1.%', 9, 17);
+    INSERT INTO APP_USERS (username, full_name, email, role_id, account_status, trusted_ip_subnet, branch_code, work_hour_start, work_hour_end)
+    VALUES ('agent_mike', 'Michael Torres', 'michael.torres@banksec.internal', v_care_rid, 'ACTIVE', '192.168.1.%', 'BR_LDN_02', 9, 17);
 
-    INSERT INTO APP_USERS (username, full_name, email, role_id, account_status, trusted_ip_subnet, work_hour_start, work_hour_end)
-    VALUES ('analyst_bob', 'Robert Chen', 'robert.chen@banksec.internal', v_analyst_rid, 'ACTIVE', '10.0.1.%', 8, 19);
+    INSERT INTO APP_USERS (username, full_name, email, role_id, account_status, trusted_ip_subnet, branch_code, work_hour_start, work_hour_end)
+    VALUES ('analyst_bob', 'Robert Chen', 'robert.chen@banksec.internal', v_analyst_rid, 'ACTIVE', '10.0.1.%', 'BR_SGP_03', 8, 19);
 
-    INSERT INTO APP_USERS (username, full_name, email, role_id, account_status, trusted_ip_subnet, work_hour_start, work_hour_end)
-    VALUES ('auditor_carol', 'Carol Danvers', 'carol.danvers@banksec.internal', v_audit_rid, 'ACTIVE', '192.168.1.%', 9, 18);
+    INSERT INTO APP_USERS (username, full_name, email, role_id, account_status, trusted_ip_subnet, branch_code, work_hour_start, work_hour_end)
+    VALUES ('auditor_carol', 'Carol Danvers', 'carol.danvers@banksec.internal', v_audit_rid, 'ACTIVE', '192.168.1.%', 'ALL', 9, 18);
 
-    INSERT INTO APP_USERS (username, full_name, email, role_id, account_status, trusted_ip_subnet, work_hour_start, work_hour_end)
-    VALUES ('external_guest', 'Guest Contractor', 'contractor@thirdparty.org', v_care_rid, 'ACTIVE', '172.16.%.%', 10, 16);
+    INSERT INTO APP_USERS (username, full_name, email, role_id, account_status, trusted_ip_subnet, branch_code, work_hour_start, work_hour_end)
+    VALUES ('external_guest', 'Guest Contractor', 'contractor@thirdparty.org', v_care_rid, 'ACTIVE', '172.16.%.%', 'BR_MUM_04', 10, 16);
 
-    INSERT INTO APP_USERS (username, full_name, email, role_id, account_status, trusted_ip_subnet, work_hour_start, work_hour_end)
-    VALUES ('locked_user', 'Marcus Aurelius', 'm.aurelius@banksec.internal', v_care_rid, 'LOCKED', '192.168.1.%', 9, 17);
+    INSERT INTO APP_USERS (username, full_name, email, role_id, account_status, trusted_ip_subnet, branch_code, work_hour_start, work_hour_end)
+    VALUES ('locked_user', 'Marcus Aurelius', 'm.aurelius@banksec.internal', v_care_rid, 'LOCKED', '192.168.1.%', 'BR_NYC_01', 9, 17);
     
     COMMIT;
 END;

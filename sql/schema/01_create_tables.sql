@@ -78,6 +78,7 @@ CREATE TABLE APP_USERS (
     role_id             NUMBER NOT NULL,
     account_status      VARCHAR2(20) DEFAULT 'ACTIVE' NOT NULL,
     trusted_ip_subnet   VARCHAR2(50) DEFAULT '192.168.1.%',
+    branch_code         VARCHAR2(10) DEFAULT 'BR_NYC_01' NOT NULL,
     work_hour_start     NUMBER(2) DEFAULT 9 NOT NULL,
     work_hour_end       NUMBER(2) DEFAULT 18 NOT NULL,
     created_at          TIMESTAMP DEFAULT SYSTIMESTAMP NOT NULL,

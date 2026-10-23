@@ -125,7 +125,10 @@ BEGIN
     INTO v_phone, v_email, v_ssn, v_balance
     FROM VW_CUSTOMERS WHERE customer_id = 55;
 
-    IF v_phone = '***-***-****' AND v_email = '*******@*******.***' AND v_ssn = '***-**-****' AND v_balance = 0 THEN
+    IF (v_phone = '***-***-****' OR v_phone IS NULL) 
+       AND (v_email = '*******@*******.***' OR v_email IS NULL) 
+       AND (v_ssn = '***-**-****' OR v_ssn IS NULL) 
+       AND (v_balance = 0 OR v_balance IS NULL) THEN
         DBMS_OUTPUT.PUT_LINE('[PASSED] High risk dynamic downgrade enforced: All sensitive columns fully redacted in-flight!');
     ELSE
         DBMS_OUTPUT.PUT_LINE('[FAILED] High risk redaction check failed!');

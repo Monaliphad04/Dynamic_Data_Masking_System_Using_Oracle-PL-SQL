@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Context-Aware Dynamic Data Masking System | Oracle PL/SQL & VPD</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+    <!-- Top Header -->
+    <header class="app-header">
+        <div class="header-left">
+            <div class="logo-shield">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+                    <path d="M9 12l2 2 4-4"/>
+                </svg>
+            </div>
+            <div>
+                <h1 class="app-title">Oracle PL/SQL Dynamic Data Masking & Risk Simulation</h1>
+                <p class="app-subtitle">Zero Storage Corruption • Non-Escalation Guarantee • Fail-Closed Kernel VPD</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="db-status-pill" id="db-status-pill">
+                <span class="status-dot pulsing"></span>
+                <span id="db-status-text">Oracle 21c (ORCLPDB) Connected</span>
+            </div>
+            <div class="session-badge" id="header-user-badge">
+                <span class="badge-role" id="header-role">CUSTOMER_CARE</span>
+                <span class="badge-name" id="header-username">agent_sarah</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container Layout -->
+    <main class="app-layout">
+        
+        <!-- LEFT PANEL: Simulation & Persona Control Room -->
+        <aside class="panel control-panel" id="control-panel">
+            <div class="panel-header">
+                <div class="panel-icon">⚙️</div>
+                <h2>Threat Simulation Controls</h2>
+            </div>
+
+            <!-- Persona Selector -->
+            <div class="control-group">
+                <label for="persona-select">Active Client Persona</label>
+                <select id="persona-select" class="form-select">
+                    <option value="agent_sarah" selected>Sarah Jenkins (Frontline Support, NYC)</option>
+                    <option value="admin_user">Eleanor Vance (Security Admin, All)</option>
+                    <option value="agent_mike">Michael Torres (Support Agent, London)</option>
+                    <option value="analyst_bob">Robert Chen (Data Analyst, Singapore)</option>
+                    <option value="auditor_carol">Carol Danvers (Compliance Auditor, All)</option>
+                    <option value="external_guest">Guest Contractor (Mumbai)</option>
+                    <option value="locked_user">Marcus Aurelius (LOCKED Account)</option>
+                </select>
+                <small class="helper-text">Switches application user in APP_USERS</small>
+            </div>
+
+            <!-- Client Network IP Simulator -->
+            <div class="control-group">
+                <label for="network-ip-select">Network IP Location</label>
+                <select id="network-ip-select" class="form-select">
+                    <option value="192.168.1.102" selected>192.168.1.102 (Trusted Corporate Subnet)</option>
+                    <option value="10.0.1.50">10.0.1.50 (Secure Internal VPN)</option>
+                    <option value="203.0.113.88">203.0.113.88 (Untrusted Public Internet - Anomaly!)</option>
+                    <option value="172.16.4.15">172.16.4.15 (External Contractor Domain)</option>
+                </select>
+            </div>
+
+            <!-- Time-of-Day Temporal Slider -->
+            <div class="control-group">
+                <div class="slider-header">
+                    <label for="time-slider">Simulated Request Time</label>
+                    <span class="slider-val" id="time-display">14:00 (2:00 PM)</span>
+                </div>
+                <input type="range" id="time-slider" min="0" max="23" value="14" class="form-range">
+                <div class="slider-labels">
+                    <span>00:00 Night</span>
+                    <span class="label-work">09:00 - 18:00 Work Hours</span>
+                    <span>23:00 Night</span>
+                </div>
+                <div id="work-hour-badge" class="badge-status in-hours">Normal Business Hours</div>
+            </div>
+
+            <!-- Branch Context Selector -->
+            <div class="control-group">
+                <label for="branch-select">Assigned Branch Context</label>
+                <select id="branch-select" class="form-select">
+                    <option value="AUTO" selected>Auto-Detect from APP_USERS</option>
+                    <option value="BR_NYC_01">BR_NYC_01 (New York Branch)</option>
+                    <option value="BR_LDN_02">BR_LDN_02 (London Branch)</option>
+                    <option value="BR_SGP_03">BR_SGP_03 (Singapore Branch)</option>
+                    <option value="BR_MUM_04">BR_MUM_04 (Mumbai Branch)</option>
+                    <option value="BR_TOK_05">BR_TOK_05 (Tokyo Branch)</option>
+                    <option value="ALL">ALL (Global Administrative Override)</option>
+                </select>
+            </div>
+
+            <!-- Manual Risk Score Override Slider -->
+            <div class="control-group">
+                <div class="slider-header">
+                    <label for="risk-override-slider">Manual Risk Score Override</label>
+                    <span class="slider-val" id="risk-override-display">Auto (Rule Engine)</span>
+                </div>
+                <input type="range" id="risk-override-slider" min="-1" max="100" value="-1" class="form-range">
+                <small class="helper-text">-1 = Auto Evaluate via PKG_RISK_ENGINE rules</small>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="button-group">
+                <button type="button" id="btn-simulate-burst" class="btn btn-warning">
+                    <span>⚡</span> Simulate Query Burst (+15)
+                </button>
+                <button type="button" id="btn-reset-simulation" class="btn btn-secondary">
+                    <span>🔄</span> Reset User Anomalies
+                </button>
+            </div>
+        </aside>
+
+        <!-- CENTER PANEL: Live Context & Data Grid -->
+        <section class="panel main-panel" id="main-panel">
+            
+            <!-- Telemetry & Risk Meter Banner -->
+            <div class="telemetry-banner">
+                <!-- Live Risk Gauge Meter -->
+                <div class="risk-gauge-card">
+                    <div class="gauge-label">REAL-TIME RISK SCORE</div>
+                    <div class="gauge-meter-wrapper">
+                        <div class="gauge-circle" id="gauge-circle">
+                            <span class="gauge-number" id="gauge-score">10</span>
+                            <span class="gauge-max">/100</span>
+                        </div>
+                    </div>
+                    <div class="tier-badge tier-low" id="gauge-tier-badge">LOW RISK</div>
+                </div>
+
+                <!-- Trusted Oracle Context Telemetry -->
+                <div class="context-telemetry-card">
+                    <div class="card-title">Active Oracle Context (<code>CTX_SEC_MASK</code>)</div>
+                    <div class="telemetry-grid">
+                        <div class="telemetry-item">
+                            <span class="telemetry-key">APP_USER</span>
+                            <span class="telemetry-val" id="ctx-user">agent_sarah</span>
+                        </div>
+                        <div class="telemetry-item">
+                            <span class="telemetry-key">ROLE_NAME</span>
+                            <span class="telemetry-val" id="ctx-role">CUSTOMER_CARE</span>
+                        </div>
+                        <div class="telemetry-item">
+                            <span class="telemetry-key">BRANCH_CODE</span>
+                            <span class="telemetry-val highlight" id="ctx-branch">BR_NYC_01</span>
+                        </div>
+                        <div class="telemetry-item">
+                            <span class="telemetry-key">CLIENT_IP</span>
+                            <span class="telemetry-val" id="ctx-ip">192.168.1.102</span>
+                        </div>
+                        <div class="telemetry-item">
+                            <span class="telemetry-key">MAX_RISK_CEILING</span>
+                            <span class="telemetry-val" id="ctx-ceiling">60</span>
+                        </div>
+                        <div class="telemetry-item">
+                            <span class="telemetry-key">CONTEXT_STATUS</span>
+                            <span class="telemetry-val status-ok" id="ctx-status">ACTIVE</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Data Table Section -->
+            <div class="table-container">
+                <div class="table-header-strip">
+                    <div class="strip-left">
+                        <h3>Dynamic Projection (<code>FROM VW_CUSTOMERS</code>)</h3>
+                        <span class="row-count-badge" id="row-count-badge">24 Records</span>
+                    </div>
+                    <div class="strip-right">
+                        <div class="legend-strip">
+                            <span class="legend-item"><span class="legend-dot clear"></span> Cleartext</span>
+                            <span class="legend-item"><span class="legend-dot partial"></span> Partial Mask</span>
+                            <span class="legend-item"><span class="legend-dot redact"></span> Redacted (NULL)</span>
+                        </div>
+                        <button type="button" id="btn-refresh-grid" class="btn btn-sm btn-primary">Refresh View</button>
+                    </div>
+                </div>
+
+                <div class="table-wrapper">
+                    <table class="data-table" id="customer-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Full Name</th>
+                                <th>Email Address</th>
+                                <th>Phone Number</th>
+                                <th>National ID / SSN</th>
+                                <th>Credit Card</th>
+                                <th>Account Balance</th>
+                                <th>Branch</th>
+                                <th>Class</th>
+                            </tr>
+                        </thead>
+                        <tbody id="customer-tbody">
+                            <tr>
+                                <td colspan="9" class="loading-cell">Loading encrypted data stream from Oracle PDB...</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </section>
+
+        <!-- RIGHT PANEL: Intelligence & Live Audit Feed -->
+        <aside class="panel audit-panel" id="audit-panel">
+            <div class="panel-header">
+                <div class="panel-icon">🛡️</div>
+                <h2>Security Intelligence</h2>
+            </div>
+
+            <!-- Active Risk Rules List -->
+            <div class="rules-section">
+                <h4 class="sub-heading">Configured Threat Rules (<code>RISK_RULES</code>)</h4>
+                <div class="rules-list" id="rules-list">
+                    <div class="rule-card">
+                        <div class="rule-code">R_OFF_HOURS (+35)</div>
+                        <div class="rule-desc">Off-hours or weekend access</div>
+                    </div>
+                    <div class="rule-card">
+                        <div class="rule-code">R_UNTRUSTED_IP (+40)</div>
+                        <div class="rule-desc">Non-whitelisted public network</div>
+                    </div>
+                    <div class="rule-card">
+                        <div class="rule-code">R_BURST_QUERY (+35)</div>
+                        <div class="rule-desc">Velocity query bursts (>10 q/min)</div>
+                    </div>
+                    <div class="rule-card">
+                        <div class="rule-code">R_FAILED_AUTH (+20)</div>
+                        <div class="rule-desc">Recent credential failure burst</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Live Non-Repudiable Audit Feed -->
+            <div class="audit-section">
+                <div class="audit-header">
+                    <h4 class="sub-heading">Forensic Audit Stream (<code>ACCESS_LOGS</code>)</h4>
+                    <span class="badge-audit-status">PRAGMA AUTONOMOUS</span>
+                </div>
+                <div class="audit-feed" id="audit-feed">
+                    <div class="audit-item">Connecting to AUDIT_USER stream...</div>
+                </div>
+            </div>
+        </aside>
+
+    </main>
+
+    <footer class="app-footer">
+        <span>Context-Aware Dynamic Data Masking Architecture • Oracle Database 21c Enterprise Edition</span>
+        <span>Monaliphad04 &copy; 2026</span>
+    </footer>
+
+    <script src="/static/app.js"></script>
+</body>
+</html>
