@@ -130,13 +130,13 @@ DB_Project_M/
 
 | Phase | Milestone | Status |
 |:---:|---|:---:|
-| **Phase 1** | Workspace & Requirements Baseline | In Progress |
-| **Phase 2** | Oracle Environment & User Setup | Pending |
-| **Phase 3** | Schema Creation & Synthetic Data Population | Pending |
-| **Phase 4** | Trusted Context & Session Management | Pending |
-| **Phase 5** | Core Masking Functions & Algorithms | Pending |
-| **Phase 6** | Rule-Based Risk Scoring Engine | Pending |
-| **Phase 7** | Auditing Architecture & Autonomous Logging | Pending |
+| **Phase 1** | Workspace & Requirements Baseline | Completed |
+| **Phase 2** | Oracle Environment & User Setup | Completed |
+| **Phase 3** | Schema Creation & Synthetic Data Population | Completed |
+| **Phase 4** | Trusted Context & Session Management | Completed |
+| **Phase 5** | Core Masking Functions & Algorithms | Completed |
+| **Phase 6** | Rule-Based Risk Scoring Engine | Completed |
+| **Phase 7** | Auditing Architecture & Autonomous Logging | Ready |
 | **Phase 8** | Dynamic Masking Views & Integration | Pending |
 | **Phase 9** | Oracle VPD (`DBMS_RLS`) Policy Enforcement | Pending |
 | **Phase 10** | Comprehensive Security & Bypass Testing | Pending |
